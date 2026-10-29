@@ -1,30 +1,22 @@
+import type { Task } from "../App"
 import TaskItem from "./TaskItem"
 
-type Task = {
-  id: string,
-  title: string,
-  done: boolean
-}
 type TaskListProps = {
-
+  tasks: Task[]
+  handleRemoveTask: (id: string) => void
 }
 
 
-export default function TaskList({ }: TaskListProps) {
-  const defaultTasks: Task[] = [
-    { id: '1', title: 'Title 1', done: true },
-    { id: '2', title: 'Title 2', done: false },
-    { id: '3', title: 'Title 3', done: true },
-  ]
-
+export default function TaskList({tasks, handleRemoveTask}: TaskListProps) {
   return (
-    <div>
-      {defaultTasks.map((task) => (
+    <div className="todo-list">
+      {tasks.map((task) => (
         <TaskItem
           key={task.id}
           id={task.id}
           title={task.title}
           done={task.done}
+          handleRemoveTask={handleRemoveTask}
         />
       ))}
     </div>
