@@ -3,12 +3,10 @@ import TaskItem from "./TaskItem"
 
 type TaskListProps = {
   tasks: Task[]
-  handleRemoveTask: (id: string) => void
-  handleChangeTask: (id: string) => void
 }
 
 
-export default function TaskList({tasks, handleRemoveTask, handleChangeTask}: TaskListProps) {
+export default function TaskList({tasks}: TaskListProps) {
   return (
     <div className="todo-list">
       {tasks.map((task) => (
@@ -17,8 +15,6 @@ export default function TaskList({tasks, handleRemoveTask, handleChangeTask}: Ta
           id={task.id}
           title={task.title}
           done={task.done}
-          handleRemoveTask={handleRemoveTask}
-          handleChangeTask={handleChangeTask}
         />
       ))}
     </div>
