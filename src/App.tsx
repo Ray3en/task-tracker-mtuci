@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddForm from "./components/AddForm";
 import Header from "./components/Header";
 import TaskList from "./components/TaskList";
@@ -9,6 +9,7 @@ export type Task = {
   done: boolean
 }
 
+
 export default function App() {
 
   const defaultTasks: Task[] = [
@@ -17,17 +18,14 @@ export default function App() {
     { id: '3', title: 'Title 3', done: true },
   ]
 
+  const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const [tasks, setTasks] = useState(defaultTasks)
-  // Создайте состояние theme, которое будет принимать строку 'light' или 'dark'
-  // Передайте как проп само состояние в компонент AddForm, TaskList и TaskItem 
-  // Используя форматирование строки, добавьте к каждому стилю (add-form, todo-list, todo-item) постфикс состояния theme (подсказка итогового значения лежит в index.css) 
-  // Убедитесь что светлая тема применилась ко всем элементам.
-  // Создайте обрабочтик который переключает состояние с светлого на темный и передайте его в Header (там вас ждет заготовленный свитч)
- 
+
+
   const addNewTask = (title: string) => {
     const newTask = {
       id: crypto.randomUUID(),
-      title, 
+      title,
       done: false
     }
     setTasks([...tasks, newTask])
@@ -38,14 +36,33 @@ export default function App() {
     setTasks(filtered)
   }
 
-  // Добавьте новый метод handleChangeTask, который по событие onClick на контейнер карты будет менять 
-  // сво-во done с true на false и наоборот. Функция также должна получить id и должна быть передана в компонент TaskItem
+  const handleChangeTask = (id: string) => {
+    const changedTasks = tasks.map((task) => {
+      if (task.id === id) {
+        task.done = !task.done
+      }
+      return task
+    })
+    setTasks(changedTasks)
+  }
+
+  useEffect(() => {
+    const tasks = localStorage.getItem('tasks')
+    if (tasks !== null && JSON.parse(tasks).length !== 0) {
+      setTasks(JSON.parse(tasks))
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+  }, [tasks])
+
 
   return (
     <div className="main">
-      <Header />
+      <Header setTheme={setTheme} theme={theme} />
       <AddForm addNewTask={addNewTask} />
-      <TaskList handleRemoveTask={handleRemoveTask} tasks={tasks}/>
+      <TaskList handleRemoveTask={handleRemoveTask} handleChangeTask={handleChangeTask} tasks={tasks} />
     </div>
   )
 }

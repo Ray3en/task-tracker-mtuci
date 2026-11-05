@@ -1,9 +1,16 @@
+import type { Dispatch, SetStateAction } from "react"
 
 
 type HeaderProps = {
+    theme: string,
+    setTheme: Dispatch<SetStateAction<'light' | 'dark'>>
 }
 
-export default function Header({ }: HeaderProps) {
+export default function Header({ theme, setTheme }: HeaderProps) {
+
+    const toggleTheme = () => {
+        setTheme(theme === 'light' ? 'dark' : 'light')
+    }
 
     return (
         <header>
@@ -13,9 +20,9 @@ export default function Header({ }: HeaderProps) {
                     type="checkbox"
                     role="switch"
                     // Можно передать состояние темы
-                    checked={}
+                    checked={theme === 'dark'}
                     // Обработчик события изменения
-                    onChange={}
+                    onChange={toggleTheme}
                 />
                 Темная тема
             </label>
