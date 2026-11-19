@@ -1,4 +1,4 @@
-import type { Task } from "../App"
+import type { Task } from "../pages/TodosPage"
 import TaskItem from "./TaskItem"
 
 type TaskListProps = {
@@ -14,7 +14,7 @@ export default function TaskList({tasks}: TaskListProps) {
           key={task.id}
           id={task.id}
           title={task.title}
-          done={task.done}
+          completed={task.completed}
         />
       ))}
     </div>

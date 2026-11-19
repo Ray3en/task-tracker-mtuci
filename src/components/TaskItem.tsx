@@ -1,15 +1,15 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { TaskContext } from "../context/TaskContext"
 
 
 type TaskItemProps = {
-  id: string,
+  id: number,
   title: string,
-  done: boolean,
+  completed: boolean,
 
 }
 
-export default function TaskItem({ id, title, done }: TaskItemProps) {
+export default function TaskItem({ id, title, completed }: TaskItemProps) {
 
   // context переменная потому что вместо объекта может быть null (не безопасно)
   // иначе можно было получить {handleRemoveTask,handleChangeTask}
@@ -25,7 +25,7 @@ export default function TaskItem({ id, title, done }: TaskItemProps) {
   }
 
   return (
-    <div onClick={handleChange} className="todo-item" style={{ backgroundColor: (done) ? 'green' : 'red' }}>
+    <div onClick={handleChange} className="todo-item" style={{ backgroundColor: (completed) ? 'green' : 'red' }}>
       <h2>{title}</h2>
       <button onClick={handleRemove}>x</button>
     </div>
